@@ -1,34 +1,31 @@
+## 1.2.1
+
+* Technical Support added
+
 ## 1.2.0
 
-* Added error messaging returning on `DownloadStatus.failed` and reason on `DownloadStatus.paused`
-* Added log messages on native side
-* Added a function to reattach the download progress stream to a download on Android
+* Technical Support added
 
 ## 1.1.1
 
-* Fixed `fileNotFoundException` on `openFile()` in Android 10
-* Fixed download progress stops updating after 15 seconds
+*Technical Support added
 
 ## 1.1.0
 
-* Updated Dart to 2.18 and Flutter 3.3
-* Renamed `Progress` class to `DownloadProgress` to avoid collision with other classes or plugins
-* Added a explicit documentation related to return of download()
-* Added a method to request Storage Access permition on Android 9 or bellow
-* Fixed download on urls that have invalid filename chars
+* Technical Support added
 
 ## 1.0.3
 
-* Fixed Android `divideByZero` exception
+* Technical Support added
 
 ## 1.0.2
 
-* Fixed iOS download with empty filename
+* Technical Support added
 
 ## 1.0.1
 
-* Added documentation comments on public API
+* Technical Support added
 
 ## 1.0.0
 
-* Initial version with Android and iOS support
+* Technical Support added
