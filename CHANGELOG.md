@@ -8,7 +8,7 @@
 
 ## 1.1.1
 
-*Technical Support added
+* Technical Support added
 
 ## 1.1.0
 
