@@ -1,3 +1,7 @@
+## 1.2.3
+
+- Bug Fixes
+
 ## 1.2.2
 
 - Notification progress removed
