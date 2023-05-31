@@ -14,6 +14,7 @@ Copy code
 <true/>
 <key>UIFileSharingEnabled</key>
 <true/>
+
 These lines enable the necessary permissions for the app to share files with the user's device and display them in the Files app.
 
 ## Android Configuration

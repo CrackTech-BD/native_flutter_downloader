@@ -1,3 +1,7 @@
+## 1.2.2
+
+* Technical Support added
+
 ## 1.2.1
 
 * Technical Support added
