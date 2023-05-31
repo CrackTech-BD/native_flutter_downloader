@@ -33,4 +33,14 @@ android {
 }
 ```
 
-# native_flutter_downloader
+### Author
+
+[Md Zuhabul Islam](https:/github.com/zuhabul)
+
+### Maintainer
+
+[Hridoy](https://github.com/hr1d0y)
+
+### Publisher
+
+[CrackTech Limited](https://cracktech.org)

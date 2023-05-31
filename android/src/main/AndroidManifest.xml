@@ -1,8 +1,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
   package="org.cracktech.native_flutter_downloader">
   <uses-permission android:name="android.permission.INTERNET" />
+<<<<<<< HEAD
   <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
   <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+=======
+  <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="29" />
+  <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="29" />
+  <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
+>>>>>>> b38a6f7559ed7682b0038fb90b193eb10753c902
   <application android:requestLegacyExternalStorage="true">
     <provider
       android:name="androidx.core.content.FileProvider"

@@ -3,139 +3,171 @@
   "packages": [
     {
       "name": "async",
+<<<<<<< HEAD
       "rootUri": "file:///Users/hridoy/.pub-cache/hosted/pub.dev/async-2.11.0",
+=======
+      "rootUri": "file:///Users/zuhab/.pub-cache/hosted/pub.dev/async-2.10.0",
+>>>>>>> b38a6f7559ed7682b0038fb90b193eb10753c902
       "packageUri": "lib/",
       "languageVersion": "2.18"
     },
     {
       "name": "boolean_selector",
-      "rootUri": "file:///Users/hridoy/.pub-cache/hosted/pub.dev/boolean_selector-2.1.1",
+      "rootUri": "file:///Users/zuhab/.pub-cache/hosted/pub.dev/boolean_selector-2.1.1",
       "packageUri": "lib/",
       "languageVersion": "2.17"
     },
     {
       "name": "characters",
+<<<<<<< HEAD
       "rootUri": "file:///Users/hridoy/.pub-cache/hosted/pub.dev/characters-1.3.0",
+=======
+      "rootUri": "file:///Users/zuhab/.pub-cache/hosted/pub.dev/characters-1.2.1",
+>>>>>>> b38a6f7559ed7682b0038fb90b193eb10753c902
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
     {
       "name": "clock",
-      "rootUri": "file:///Users/hridoy/.pub-cache/hosted/pub.dev/clock-1.1.1",
+      "rootUri": "file:///Users/zuhab/.pub-cache/hosted/pub.dev/clock-1.1.1",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
     {
       "name": "collection",
+<<<<<<< HEAD
       "rootUri": "file:///Users/hridoy/.pub-cache/hosted/pub.dev/collection-1.17.1",
+=======
+      "rootUri": "file:///Users/zuhab/.pub-cache/hosted/pub.dev/collection-1.17.0",
+>>>>>>> b38a6f7559ed7682b0038fb90b193eb10753c902
       "packageUri": "lib/",
       "languageVersion": "2.18"
     },
     {
       "name": "fake_async",
-      "rootUri": "file:///Users/hridoy/.pub-cache/hosted/pub.dev/fake_async-1.3.1",
+      "rootUri": "file:///Users/zuhab/.pub-cache/hosted/pub.dev/fake_async-1.3.1",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
     {
       "name": "flutter",
-      "rootUri": "file:///Users/hridoy/Development/flutter/packages/flutter",
+      "rootUri": "file:///Users/zuhab/flutter/packages/flutter",
       "packageUri": "lib/",
       "languageVersion": "3.0"
     },
     {
       "name": "flutter_lints",
-      "rootUri": "file:///Users/hridoy/.pub-cache/hosted/pub.dev/flutter_lints-2.0.1",
+      "rootUri": "file:///Users/zuhab/.pub-cache/hosted/pub.dev/flutter_lints-2.0.1",
       "packageUri": "lib/",
       "languageVersion": "2.17"
     },
     {
       "name": "flutter_test",
-      "rootUri": "file:///Users/hridoy/Development/flutter/packages/flutter_test",
+      "rootUri": "file:///Users/zuhab/flutter/packages/flutter_test",
       "packageUri": "lib/",
       "languageVersion": "3.0"
     },
     {
       "name": "js",
+<<<<<<< HEAD
       "rootUri": "file:///Users/hridoy/.pub-cache/hosted/pub.dev/js-0.6.7",
+=======
+      "rootUri": "file:///Users/zuhab/.pub-cache/hosted/pub.dev/js-0.6.5",
+>>>>>>> b38a6f7559ed7682b0038fb90b193eb10753c902
       "packageUri": "lib/",
       "languageVersion": "2.19"
     },
     {
       "name": "lints",
-      "rootUri": "file:///Users/hridoy/.pub-cache/hosted/pub.dev/lints-2.0.1",
+      "rootUri": "file:///Users/zuhab/.pub-cache/hosted/pub.dev/lints-2.0.1",
       "packageUri": "lib/",
       "languageVersion": "2.17"
     },
     {
       "name": "matcher",
+<<<<<<< HEAD
       "rootUri": "file:///Users/hridoy/.pub-cache/hosted/pub.dev/matcher-0.12.15",
+=======
+      "rootUri": "file:///Users/zuhab/.pub-cache/hosted/pub.dev/matcher-0.12.13",
+>>>>>>> b38a6f7559ed7682b0038fb90b193eb10753c902
       "packageUri": "lib/",
       "languageVersion": "2.18"
     },
     {
       "name": "material_color_utilities",
-      "rootUri": "file:///Users/hridoy/.pub-cache/hosted/pub.dev/material_color_utilities-0.2.0",
+      "rootUri": "file:///Users/zuhab/.pub-cache/hosted/pub.dev/material_color_utilities-0.2.0",
       "packageUri": "lib/",
       "languageVersion": "2.13"
     },
     {
       "name": "meta",
+<<<<<<< HEAD
       "rootUri": "file:///Users/hridoy/.pub-cache/hosted/pub.dev/meta-1.9.1",
+=======
+      "rootUri": "file:///Users/zuhab/.pub-cache/hosted/pub.dev/meta-1.8.0",
+>>>>>>> b38a6f7559ed7682b0038fb90b193eb10753c902
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
     {
       "name": "path",
+<<<<<<< HEAD
       "rootUri": "file:///Users/hridoy/.pub-cache/hosted/pub.dev/path-1.8.3",
+=======
+      "rootUri": "file:///Users/zuhab/.pub-cache/hosted/pub.dev/path-1.8.2",
+>>>>>>> b38a6f7559ed7682b0038fb90b193eb10753c902
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
     {
       "name": "sky_engine",
-      "rootUri": "file:///Users/hridoy/Development/flutter/bin/cache/pkg/sky_engine",
+      "rootUri": "file:///Users/zuhab/flutter/bin/cache/pkg/sky_engine",
       "packageUri": "lib/",
       "languageVersion": "3.0"
     },
     {
       "name": "source_span",
-      "rootUri": "file:///Users/hridoy/.pub-cache/hosted/pub.dev/source_span-1.9.1",
+      "rootUri": "file:///Users/zuhab/.pub-cache/hosted/pub.dev/source_span-1.9.1",
       "packageUri": "lib/",
       "languageVersion": "2.14"
     },
     {
       "name": "stack_trace",
-      "rootUri": "file:///Users/hridoy/.pub-cache/hosted/pub.dev/stack_trace-1.11.0",
+      "rootUri": "file:///Users/zuhab/.pub-cache/hosted/pub.dev/stack_trace-1.11.0",
       "packageUri": "lib/",
       "languageVersion": "2.18"
     },
     {
       "name": "stream_channel",
-      "rootUri": "file:///Users/hridoy/.pub-cache/hosted/pub.dev/stream_channel-2.1.1",
+      "rootUri": "file:///Users/zuhab/.pub-cache/hosted/pub.dev/stream_channel-2.1.1",
       "packageUri": "lib/",
       "languageVersion": "2.14"
     },
     {
       "name": "string_scanner",
-      "rootUri": "file:///Users/hridoy/.pub-cache/hosted/pub.dev/string_scanner-1.2.0",
+      "rootUri": "file:///Users/zuhab/.pub-cache/hosted/pub.dev/string_scanner-1.2.0",
       "packageUri": "lib/",
       "languageVersion": "2.18"
     },
     {
       "name": "term_glyph",
-      "rootUri": "file:///Users/hridoy/.pub-cache/hosted/pub.dev/term_glyph-1.2.1",
+      "rootUri": "file:///Users/zuhab/.pub-cache/hosted/pub.dev/term_glyph-1.2.1",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
     {
       "name": "test_api",
+<<<<<<< HEAD
       "rootUri": "file:///Users/hridoy/.pub-cache/hosted/pub.dev/test_api-0.5.1",
+=======
+      "rootUri": "file:///Users/zuhab/.pub-cache/hosted/pub.dev/test_api-0.4.16",
+>>>>>>> b38a6f7559ed7682b0038fb90b193eb10753c902
       "packageUri": "lib/",
       "languageVersion": "2.18"
     },
     {
       "name": "vector_math",
-      "rootUri": "file:///Users/hridoy/.pub-cache/hosted/pub.dev/vector_math-2.1.4",
+      "rootUri": "file:///Users/zuhab/.pub-cache/hosted/pub.dev/vector_math-2.1.4",
       "packageUri": "lib/",
       "languageVersion": "2.14"
     },
@@ -146,7 +178,13 @@
       "languageVersion": "2.17"
     }
   ],
+<<<<<<< HEAD
   "generated": "2023-05-31T12:39:56.981767Z",
   "generator": "pub",
   "generatorVersion": "3.0.1"
+=======
+  "generated": "2023-03-27T07:39:14.367820Z",
+  "generator": "pub",
+  "generatorVersion": "2.19.5"
+>>>>>>> b38a6f7559ed7682b0038fb90b193eb10753c902
 }
