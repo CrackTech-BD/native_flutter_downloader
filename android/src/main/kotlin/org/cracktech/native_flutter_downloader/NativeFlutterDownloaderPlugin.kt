@@ -28,6 +28,9 @@ import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.PluginRegistry.RequestPermissionsResultListener
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import androidx.core.app.NotificationCompat
 import kotlinx.coroutines.*
 import java.io.File
 
@@ -68,7 +71,7 @@ class NativeFlutterDownloaderPlugin : FlutterPlugin, MethodCallHandler, Activity
           result.success(null)
         }
         "download" -> {
-          val downloadId = download(call.argument("url"), call.argument("headers"), call.argument("fileName"))
+          val downloadId = download(call.argument("url"), call.argument("headers"), call.argument("fileName"), call.argument("savedFilePath"))
           CoroutineScope(Dispatchers.Default).launch {
             trackProgress(downloadId)
           }
@@ -79,12 +82,6 @@ class NativeFlutterDownloaderPlugin : FlutterPlugin, MethodCallHandler, Activity
           CoroutineScope(Dispatchers.Default).launch {
             trackProgress(downloadId)
           }
-        }
-        "openFile" -> {
-          val downloadId: Int? = call.argument("downloadId")
-          val filePath: String? = call.argument("filePath")
-          //openFile(downloadId?.toLong(), filePath)
-          result.success(null)
         }
         "cancel" -> {
           val downloadIds: LongArray = call.argument("downloadIds")!!
@@ -143,60 +140,52 @@ class NativeFlutterDownloaderPlugin : FlutterPlugin, MethodCallHandler, Activity
     )
   }
 
-private fun download(url: String?, headers: Map<String, String>?, fileName: String?): Long {
+
+
+  fun disableNotificationClick(context: Context, downloadId: Long) {
+    val emptyIntent = PendingIntent.getActivity(context, 0, Intent(), PendingIntent.FLAG_IMMUTABLE)
+
+    val downloadManager = context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+    val query = DownloadManager.Query().setFilterById(downloadId)
+    val cursor = downloadManager.query(query)
+    if (cursor.moveToFirst()) {
+      val status = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_STATUS))
+      if (status == DownloadManager.STATUS_SUCCESSFUL) {
+        val channelId = "download_channel"
+        val notificationBuilder = NotificationCompat.Builder(context, channelId)
+          .setContentTitle("Download Completed")
+          .setContentText("File downloaded successfully")
+          .setSmallIcon(android.R.drawable.stat_sys_download_done)
+          .setContentIntent(emptyIntent)
+          .setAutoCancel(true)
+
+        val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+          val channel = NotificationChannel(channelId, "Download Channel", NotificationManager.IMPORTANCE_DEFAULT)
+          notificationManager.createNotificationChannel(channel)
+        }
+
+        notificationManager.notify(downloadId.toInt(), notificationBuilder.build())
+      }
+    }
+  }
+
+
+
+  private fun download(url: String?, headers: Map<String, String>?, fileName: String?, savedFilePath: String?): Long {
   val manager = context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
   val uri = Uri.parse(url)
-  Log.d("NativeFlutterDownloader", "Downloading $url")
   val request = DownloadManager.Request(uri)
-  request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_HIDDEN)
-
-  
-  var appSpecificDir = context.getExternalFilesDir(null) // get the application-specific directory
-  var files = context.getExternalFilesDirs(null)
-        if (files.size >= 2) {
-          appSpecificDir = files[1]
-        }
-  val file = File(appSpecificDir, fileName ?: uri.lastPathSegment?.replace(
+  request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE)
+  val file = File(savedFilePath, fileName ?: uri.lastPathSegment?.replace(
       Regex("[#%&{}\\\\<>*?/\$!'\":@+`|=]"), "-"
-  ) ?: "unknown")
+  ))
   request.setDestinationUri(Uri.fromFile(file)) // set the destination URI to the application-specific directory
   for (header in headers?.keys ?: emptyList()) {
       request.addRequestHeader(header, headers!![header])
   }
-  // val notificationIntent = PendingIntent.getActivity(context, 0, null, PendingIntent.FLAG_UPDATE_CURRENT)
-  //   request.setNotificationIntent(notificationIntent) 
-  // val dummyIntent = PendingIntent.getActivity(context, 0, Intent(), PendingIntent.FLAG_UPDATE_CURRENT)
-  // request.setNotificationIntent(dummyIntent)
   return manager.enqueue(request)
 }
-
-  private fun openFile(downloadId: Long?, filePath: String?) {
-    val manager = context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
-    var downloadedTo : String? = filePath
-
-    if(filePath == null) {
-      val cursor = manager.query(Query().setFilterById(downloadId!!))
-      if (cursor.moveToFirst()) {
-        downloadedTo = cursor.getString(cursor.getColumnIndex(DownloadManager.COLUMN_LOCAL_URI))
-      }
-      cursor.close()
-    }
-
-    val authority = context.applicationContext.packageName + ".NativeFlutterDownloader.provider"
-    val fileUri = Uri.parse(downloadedTo)
-    val mimeMap = MimeTypeMap.getSingleton()
-    val ext = MimeTypeMap.getFileExtensionFromUrl(fileUri.path)
-    var type = mimeMap.getMimeTypeFromExtension(ext)
-    if (type == null) type = "*/*"
-    val uri = FileProvider.getUriForFile(context, authority, File(fileUri.path!!))
-
-    context.startActivity(
-      Intent(Intent.ACTION_VIEW)
-          .setDataAndType(uri, type)
-          .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-          .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-    )
-  }
 
   private fun cancelDownload(vararg downloadIds: Long): Int {
     val manager = context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
@@ -234,7 +223,6 @@ private fun download(url: String?, headers: Map<String, String>?, fileName: Stri
             if (timerCoroutine.isActive) timerCoroutine.cancel()
             val reason = cursor.getIntOrNull(cursor.getColumnIndex(DownloadManager.COLUMN_REASON))
             val convertedReason = convertReasonString(reason)
-            Log.d("native_flutter_downloader", "$convertedReason")
             withContext(Dispatchers.Main) {
               channel.invokeMethod("notifyProgress",
                       mapOf("downloadId" to downloadId,
@@ -311,6 +299,8 @@ private fun download(url: String?, headers: Map<String, String>?, fileName: Stri
             withContext(Dispatchers.Main) {
               channel.invokeMethod("notifyProgress", mapOf("downloadId" to downloadId, "progress" to progress, "status" to 0, "filePath" to filePath))
             }
+
+            disableNotificationClick(activity, downloadId)
           }
         }
       }
