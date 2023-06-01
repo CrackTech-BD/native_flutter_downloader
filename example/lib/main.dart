@@ -30,9 +30,6 @@ class _MyAppState extends State<MyApp> {
         setState(() {
           progress = event.progress;
         });
-        NativeFlutterDownloader.openFile(
-          filePath: event.filePath,
-        );
       } else if (event.status == DownloadStatus.running) {
         debugPrint('event.progress: ${event.progress}');
         setState(() {
@@ -95,6 +92,7 @@ class _MyAppState extends State<MyApp> {
               await NativeFlutterDownloader.download(
                 urlController.text,
                 fileName: 'teste.pdf',
+                savedFilePath: '/storage/emulated/0/Download',
               );
             } else {
               debugPrint('Permission denied =(');

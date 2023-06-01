@@ -123,25 +123,6 @@ class NativeFlutterDownloader {
     });
   }
 
-  /// Open the downlaoded file on the default file loader on each platform
-  ///
-  /// You can open a downloaded file using the [downloadId] or the [filepath]
-  /// on Android. On iOS you can open using only the [filePath]
-  static Future<void> openFile({int? downloadId, String? filePath}) async {
-    assert(
-      (downloadId != null) ^ (filePath != null),
-      'You can open a file by downloadId or by filePath, not both',
-    );
-    assert(
-      !Platform.isIOS || (Platform.isIOS && filePath != null),
-      'On iOS you can only open a file by filePath',
-    );
-    return await _channel.invokeMethod('openFile', {
-      'downloadId': downloadId,
-      'filePath': filePath,
-    });
-  }
-
   /// Cancels a list of ongoing downloads and return the number of canceled tasks
   static Future<int> cancel(List<int> downloadIds) async {
     if (Platform.isAndroid) {
