@@ -34,7 +34,6 @@ import androidx.core.app.NotificationCompat
 import kotlinx.coroutines.*
 import java.io.File
 
-
 class NativeFlutterDownloaderPlugin : FlutterPlugin, MethodCallHandler, ActivityAware, RequestPermissionsResultListener {
   private lateinit var channel: MethodChannel
   private lateinit var activityBindings: ActivityPluginBinding
@@ -101,6 +100,7 @@ class NativeFlutterDownloaderPlugin : FlutterPlugin, MethodCallHandler, Activity
   ): Boolean {
     when (requestCode) {
       permissionRequestCode -> if (grantResults.isNotEmpty()) {
+
         val writePermissionStorage = grantResults[0] == PackageManager.PERMISSION_GRANTED
         val readExternalStorage = grantResults[1] == PackageManager.PERMISSION_GRANTED
         if (readExternalStorage && writePermissionStorage) {
@@ -140,8 +140,6 @@ class NativeFlutterDownloaderPlugin : FlutterPlugin, MethodCallHandler, Activity
     )
   }
 
-
-
   fun disableNotificationClick(context: Context, downloadId: Long) {
     val emptyIntent = PendingIntent.getActivity(context, 0, Intent(), PendingIntent.FLAG_IMMUTABLE)
 
@@ -164,7 +162,6 @@ class NativeFlutterDownloaderPlugin : FlutterPlugin, MethodCallHandler, Activity
           val channel = NotificationChannel(channelId, "Download Channel", NotificationManager.IMPORTANCE_DEFAULT)
           notificationManager.createNotificationChannel(channel)
         }
-
         notificationManager.notify(downloadId.toInt(), notificationBuilder.build())
       }
     }
@@ -173,7 +170,6 @@ class NativeFlutterDownloaderPlugin : FlutterPlugin, MethodCallHandler, Activity
 
 
   private fun download(url: String?, headers: Map<String, String>?, fileName: String?, savedFilePath: String?): Long {
-  val manager = context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
   val uri = Uri.parse(url)
   val request = DownloadManager.Request(uri)
   request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE)
@@ -184,6 +180,7 @@ class NativeFlutterDownloaderPlugin : FlutterPlugin, MethodCallHandler, Activity
   for (header in headers?.keys ?: emptyList()) {
       request.addRequestHeader(header, headers!![header])
   }
+    val manager = context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
   return manager.enqueue(request)
 }
 
@@ -237,9 +234,7 @@ class NativeFlutterDownloaderPlugin : FlutterPlugin, MethodCallHandler, Activity
             if (timerCoroutine.isActive) timerCoroutine.cancel()
             val reason = cursor.getIntOrNull(cursor.getColumnIndex(DownloadManager.COLUMN_REASON))
             val convertedReason = convertReasonString(reason)
-            Log.d("native_flutter_downloader", "$convertedReason")
-            val total =
-                    cursor.getLong(cursor.getColumnIndex(DownloadManager.COLUMN_TOTAL_SIZE_BYTES))
+            val total = cursor.getLong(cursor.getColumnIndex(DownloadManager.COLUMN_TOTAL_SIZE_BYTES))
             if (total >= 0) {
               val downloaded =
                       cursor.getLong(
