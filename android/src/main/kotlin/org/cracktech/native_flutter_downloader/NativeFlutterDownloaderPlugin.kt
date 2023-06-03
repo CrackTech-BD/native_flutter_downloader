@@ -181,7 +181,7 @@ class NativeFlutterDownloaderPlugin : FlutterPlugin, MethodCallHandler, Activity
     return manager.remove(*downloadIds)
   }
 
-  private suspend fun trackProgress(downloadId: Long?) {
+  private suspend fun trackProgress(downloadId: Long) {
     val manager = context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
     var finishDownload = false
     var lastProgress = -1
@@ -198,8 +198,9 @@ class NativeFlutterDownloaderPlugin : FlutterPlugin, MethodCallHandler, Activity
             "notifyProgress",
             mapOf("downloadId" to downloadId, "progress" to 0, "status" to 4)
           )
+          disableNotificationClick(activity, downloadId)
         }
-        manager.remove(downloadId!!)
+        manager.remove(downloadId)
       }
     }
     while (!finishDownload) {
@@ -285,11 +286,9 @@ class NativeFlutterDownloaderPlugin : FlutterPlugin, MethodCallHandler, Activity
             if (timerCoroutine.isActive) timerCoroutine.cancel()
             withContext(Dispatchers.Main) {
               channel.invokeMethod("notifyProgress", mapOf("downloadId" to downloadId, "progress" to progress, "status" to 0, "filePath" to filePath))
-              disableNotificationClick(activity, downloadId)
+
 
             }
-
-
           }
         }
       }
