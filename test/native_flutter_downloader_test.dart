@@ -11,6 +11,7 @@ void main() {
   setUp(() {
     TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(channel, (MethodCall methodCall) async {
       if (methodCall.method == 'download') return 1;
+      return null;
     });
   });
 
