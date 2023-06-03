@@ -1,3 +1,16 @@
+
+## 1.2.7
+
+- Directory Fixed from Flutter
+- Click Notification disable
+- Bug Fixes
+- Multiple Notification call disable
+
+## 1.2.6
+
+- Directory Fixed from Flutter 
+- Click Notification disable
+
 ## 1.2.5
 
 - Bug Fixes

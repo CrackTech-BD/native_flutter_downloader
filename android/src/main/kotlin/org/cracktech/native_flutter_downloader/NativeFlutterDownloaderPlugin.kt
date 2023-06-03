@@ -142,13 +142,6 @@ class NativeFlutterDownloaderPlugin : FlutterPlugin, MethodCallHandler, Activity
 
   fun disableNotificationClick(context: Context, downloadId: Long) {
     val emptyIntent = PendingIntent.getActivity(context, 0, Intent(), PendingIntent.FLAG_IMMUTABLE)
-
-    val downloadManager = context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
-    val query = DownloadManager.Query().setFilterById(downloadId)
-    val cursor = downloadManager.query(query)
-    if (cursor.moveToFirst()) {
-      val status = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_STATUS))
-      if (status == DownloadManager.STATUS_SUCCESSFUL) {
         val channelId = "download_channel"
         val notificationBuilder = NotificationCompat.Builder(context, channelId)
           .setContentTitle("Download Completed")
@@ -159,12 +152,10 @@ class NativeFlutterDownloaderPlugin : FlutterPlugin, MethodCallHandler, Activity
 
         val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-          val channel = NotificationChannel(channelId, "Download Channel", NotificationManager.IMPORTANCE_DEFAULT)
+          val channel = NotificationChannel("download_channel", "Download Channel", NotificationManager.IMPORTANCE_DEFAULT)
           notificationManager.createNotificationChannel(channel)
         }
         notificationManager.notify(downloadId.toInt(), notificationBuilder.build())
-      }
-    }
   }
 
 
