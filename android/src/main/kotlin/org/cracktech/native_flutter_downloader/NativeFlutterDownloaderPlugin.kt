@@ -140,9 +140,9 @@ class NativeFlutterDownloaderPlugin : FlutterPlugin, MethodCallHandler, Activity
     )
   }
 
-  fun disableNotificationClick(context: Context, downloadId: Long) {
+  private fun disableNotificationClick(context: Context, downloadId: Long) {
     val emptyIntent = PendingIntent.getActivity(context, 0, Intent(), PendingIntent.FLAG_IMMUTABLE)
-        val channelId = downloadId.toString()
+        val channelId = "download_channel"
         val notificationBuilder = NotificationCompat.Builder(context, channelId)
           .setContentTitle("Download Completed")
           .setContentText("File downloaded successfully")
@@ -164,9 +164,10 @@ class NativeFlutterDownloaderPlugin : FlutterPlugin, MethodCallHandler, Activity
   val uri = Uri.parse(url)
   val request = DownloadManager.Request(uri)
   request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE)
-  val file = File(savedFilePath, fileName ?: uri.lastPathSegment?.replace(
-      Regex("[#%&{}\\\\<>*?/\$!'\":@+`|=]"), "-"
-  ))
+  val file = File(savedFilePath, (fileName ?: uri.lastPathSegment?.replace(
+    Regex(pattern = "[#%&{}\\\\<>*?/\$!'\":@+`|=]"), "-"
+  )).toString()
+  )
   request.setDestinationUri(Uri.fromFile(file)) // set the destination URI to the application-specific directory
   for (header in headers?.keys ?: emptyList()) {
       request.addRequestHeader(header, headers!![header])
