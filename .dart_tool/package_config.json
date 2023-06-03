@@ -40,18 +40,21 @@
     {
       "name": "flutter",
       "rootUri": "file:///Users/jekopaul/development/flutter/packages/flutter",
+
       "packageUri": "lib/",
       "languageVersion": "3.0"
     },
     {
       "name": "flutter_lints",
       "rootUri": "file:///Users/jekopaul/.pub-cache/hosted/pub.dev/flutter_lints-2.0.1",
+
       "packageUri": "lib/",
       "languageVersion": "2.17"
     },
     {
       "name": "flutter_test",
       "rootUri": "file:///Users/jekopaul/development/flutter/packages/flutter_test",
+
       "packageUri": "lib/",
       "languageVersion": "3.0"
     },
@@ -76,6 +79,7 @@
     {
       "name": "material_color_utilities",
       "rootUri": "file:///Users/jekopaul/.pub-cache/hosted/pub.dev/material_color_utilities-0.2.0",
+
       "packageUri": "lib/",
       "languageVersion": "2.13"
     },
@@ -94,18 +98,21 @@
     {
       "name": "sky_engine",
       "rootUri": "file:///Users/jekopaul/development/flutter/bin/cache/pkg/sky_engine",
+
       "packageUri": "lib/",
       "languageVersion": "3.0"
     },
     {
       "name": "source_span",
       "rootUri": "file:///Users/jekopaul/.pub-cache/hosted/pub.dev/source_span-1.9.1",
+
       "packageUri": "lib/",
       "languageVersion": "2.14"
     },
     {
       "name": "stack_trace",
       "rootUri": "file:///Users/jekopaul/.pub-cache/hosted/pub.dev/stack_trace-1.11.0",
+
       "packageUri": "lib/",
       "languageVersion": "2.18"
     },
@@ -118,12 +125,14 @@
     {
       "name": "string_scanner",
       "rootUri": "file:///Users/jekopaul/.pub-cache/hosted/pub.dev/string_scanner-1.2.0",
+
       "packageUri": "lib/",
       "languageVersion": "2.18"
     },
     {
       "name": "term_glyph",
       "rootUri": "file:///Users/jekopaul/.pub-cache/hosted/pub.dev/term_glyph-1.2.1",
+
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -135,7 +144,9 @@
     },
     {
       "name": "vector_math",
+
       "rootUri": "file:///Users/jekopaul/.pub-cache/hosted/pub.dev/vector_math-2.1.4",
+
       "packageUri": "lib/",
       "languageVersion": "2.14"
     },
