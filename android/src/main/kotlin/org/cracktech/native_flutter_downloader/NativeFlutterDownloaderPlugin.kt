@@ -284,7 +284,7 @@ class NativeFlutterDownloaderPlugin : FlutterPlugin, MethodCallHandler, Activity
             if (timerCoroutine.isActive) timerCoroutine.cancel()
             withContext(Dispatchers.Main) {
               channel.invokeMethod("notifyProgress", mapOf("downloadId" to downloadId, "progress" to progress, "status" to 0, "filePath" to filePath))
-              disableNotificationClick(activity, downloadId)
+
             }
 
 
@@ -292,6 +292,7 @@ class NativeFlutterDownloaderPlugin : FlutterPlugin, MethodCallHandler, Activity
         }
       }
       cursor.close()
+      disableNotificationClick(activity, downloadId)
     }
     return
   }
