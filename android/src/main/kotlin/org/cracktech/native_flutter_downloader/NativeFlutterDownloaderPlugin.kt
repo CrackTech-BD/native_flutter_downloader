@@ -288,6 +288,7 @@ class NativeFlutterDownloaderPlugin : FlutterPlugin, MethodCallHandler, Activity
               disableNotificationClick(activity, downloadId)
 
             }
+            manager.remove(downloadId)
           }
         }
       }
