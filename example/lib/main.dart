@@ -16,7 +16,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   final TextEditingController urlController = TextEditingController(
     text:
-        'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
+        'https://player.vimeo.com/progressive_redirect/playback/828907811/rendition/1080p/file.mp4?loc=external&oauth2_token_id=1643955558&signature=0da5f40183c29f3c61d6ed3ac01e51732e1d6136ec63cc1513d61e2ce804027b',
   );
 
   int progress = 0;
@@ -36,7 +36,7 @@ class _MyAppState extends State<MyApp> {
           progress = event.progress;
         });
       } else if (event.status == DownloadStatus.failed) {
-        debugPrint('event: $event');
+        debugPrint('event: ${event.statusReason?.message}');
         debugPrint('Download failed');
       } else if (event.status == DownloadStatus.paused) {
         debugPrint('Download paused');
@@ -91,7 +91,7 @@ class _MyAppState extends State<MyApp> {
             if (permission == StoragePermissionStatus.granted) {
               await NativeFlutterDownloader.download(
                 urlController.text,
-                fileName: 'teste.pdf',
+                fileName: 'jhgjk',
                 savedFilePath: '/storage/emulated/0/Download',
               );
             } else {

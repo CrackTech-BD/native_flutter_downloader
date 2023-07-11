@@ -4,6 +4,11 @@
 - Click Notification disable
 - Bug Fixes
 - Multiple Notification call disable
+## 1.3.1
+
+- Query Optimise
+- Bug Fixed.
+
 ## 1.3.0
 
 - Directory Fixed from Flutter
