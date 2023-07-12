@@ -336,6 +336,164 @@ class NativeFlutterDownloaderPlugin : FlutterPlugin, MethodCallHandler, Activity
 //    return
 //  }
 
+//
+//  private suspend fun trackProgress(downloadId: Long?) {
+//    val manager = context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+//    var finishDownload = false
+//    var lastProgress = -1
+//    var progress = 0
+//    withContext(Dispatchers.Main) {
+//      channel.invokeMethod("notifyProgress", mapOf("downloadId" to downloadId, "progress" to progress, "status" to 2))
+//    }
+//    val timerCoroutine = CoroutineScope(Dispatchers.Default).launch {
+//      SystemClock.sleep(15000)
+//      if (isActive) {
+//        finishDownload = true
+//        withContext(Dispatchers.Main) {
+//          channel.invokeMethod(
+//            "notifyProgress",
+//            mapOf("downloadId" to downloadId, "progress" to 0, "status" to 4)
+//          )
+//        }
+//        manager.remove(downloadId!!)
+//      }
+//    }
+//
+//    while (!finishDownload) {
+//      val batchSize = 100 // Adjust the batch size as per your requirements
+//      var cursor: Cursor? = null
+//
+//      try {
+//
+//        cursor = manager.query(Query().setFilterById(downloadId!!))
+//        if (cursor.moveToFirst()) {
+//          do {
+//            when (cursor.getInt(with(cursor) { getColumnIndex(DownloadManager.COLUMN_STATUS) })) {
+//              DownloadManager.STATUS_SUCCESSFUL -> {
+//                val filePath =
+//                  cursor.getString(with(cursor) { getColumnIndex(DownloadManager.COLUMN_LOCAL_URI) })
+//                progress = 100
+//                finishDownload = true
+//                if (timerCoroutine.isActive) timerCoroutine.cancel()
+//                withContext(Dispatchers.Main) {
+//                  channel.invokeMethod(
+//                    "notifyProgress",
+//                    mapOf("downloadId" to downloadId, "progress" to progress, "status" to 0, "filePath" to filePath)
+//                  )
+//                  disableNotificationClick(activity, downloadId)
+//                }
+//                manager.remove(downloadId)
+//              }
+//              DownloadManager.STATUS_FAILED -> {
+//              finishDownload = true
+//              if (timerCoroutine.isActive) timerCoroutine.cancel()
+//              val reason = cursor.getIntOrNull(cursor.getColumnIndex(DownloadManager.COLUMN_REASON))
+//              val convertedReason = convertReasonString(reason)
+//              withContext(Dispatchers.Main) {
+//                channel.invokeMethod(
+//                  "notifyProgress",
+//                  mapOf(
+//                    "downloadId" to downloadId,
+//                    "progress" to 0,
+//                    "status" to 4,
+//                    "reason" to convertedReason
+//                  )
+//                )
+//              }
+//            }
+//
+//            DownloadManager.STATUS_PAUSED -> {
+//              finishDownload = true
+//              if (timerCoroutine.isActive) timerCoroutine.cancel()
+//              val reason = cursor.getIntOrNull(cursor.getColumnIndex(DownloadManager.COLUMN_REASON))
+//              val convertedReason = convertReasonString(reason)
+//              val total =
+//                cursor.getLong(with(cursor) { getColumnIndex(DownloadManager.COLUMN_TOTAL_SIZE_BYTES) })
+//              if (total >= 0) {
+//                val downloaded =
+//                  cursor.getLong(
+//                    with(cursor) { getColumnIndex(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR) }
+//                  )
+//                progress = (downloaded * 100L / total).toInt()
+//                withContext(Dispatchers.Main) {
+//                  channel.invokeMethod(
+//                    "notifyProgress",
+//                    mapOf(
+//                      "downloadId" to downloadId,
+//                      "progress" to progress,
+//                      "status" to 3,
+//                      "reason" to convertedReason
+//                    )
+//                  )
+//                }
+//              } else {
+//                withContext(Dispatchers.Main) {
+//                  channel.invokeMethod(
+//                    "notifyProgress",
+//                    mapOf(
+//                      "downloadId" to downloadId,
+//                      "progress" to progress,
+//                      "status" to 3,
+//                      "reason" to convertedReason
+//                    )
+//                  )
+//                }
+//              }
+//            }
+//
+//            DownloadManager.STATUS_PENDING -> {
+//              withContext(Dispatchers.Main) {
+//                channel.invokeMethod(
+//                  "notifyProgress",
+//                  mapOf("downloadId" to downloadId, "progress" to 0, "status" to 2)
+//                )
+//              }
+//              SystemClock.sleep(250)
+//            }
+//
+//            DownloadManager.STATUS_RUNNING -> {
+//              val total =
+//                cursor.getLong(with(cursor) { getColumnIndex(DownloadManager.COLUMN_TOTAL_SIZE_BYTES) })
+//              if (total >= 0) {
+//                if (timerCoroutine.isActive) timerCoroutine.cancel()
+//                val downloaded =
+//                  cursor.getLong(
+//                    with(cursor) { getColumnIndex(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR) }
+//                  )
+//                if (total != 0L) {
+//                  progress = (downloaded * 100L / total).toInt()
+//                }
+//                if (progress != lastProgress) {
+//                  lastProgress = progress
+//                  withContext(Dispatchers.Main) {
+//                    channel.invokeMethod(
+//                      "notifyProgress",
+//                      mapOf("downloadId" to downloadId, "progress" to progress, "status" to 1)
+//                    )
+//                  }
+//                }
+//              }
+//            }
+//
+//            }
+//          } while (cursor.moveToNext())
+//        }
+//      } catch (e: Exception) {
+//        // Handle the CursorWindowAllocationException
+//        Log.e("Download Progress", "CursorWindowAllocationException occurred: ${e.message}")
+//      } finally {
+//        cursor?.close()
+//      }
+//
+//      if (!finishDownload) {
+//        SystemClock.sleep(1000) // Add a delay between consecutive queries
+//      }
+//    }
+//  }
+
+
+
+
 
   private suspend fun trackProgress(downloadId: Long?) {
     val manager = context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
@@ -362,125 +520,124 @@ class NativeFlutterDownloaderPlugin : FlutterPlugin, MethodCallHandler, Activity
     while (!finishDownload) {
       val batchSize = 100 // Adjust the batch size as per your requirements
       var cursor: Cursor? = null
-
       try {
+        val query = Query().setFilterById(downloadId!!)
+        cursor = manager.query(query)
 
-        cursor = manager.query(Query().setFilterById(downloadId!!))
-        if (cursor.moveToFirst()) {
-          do {
-            when (cursor.getInt(with(cursor) { getColumnIndex(DownloadManager.COLUMN_STATUS) })) {
-              DownloadManager.STATUS_SUCCESSFUL -> {
-                val filePath =
-                  cursor.getString(with(cursor) { getColumnIndex(DownloadManager.COLUMN_LOCAL_URI) })
-                progress = 100
-                finishDownload = true
-                if (timerCoroutine.isActive) timerCoroutine.cancel()
-                withContext(Dispatchers.Main) {
-                  channel.invokeMethod(
-                    "notifyProgress",
-                    mapOf("downloadId" to downloadId, "progress" to progress, "status" to 0, "filePath" to filePath)
-                  )
-                  disableNotificationClick(activity, downloadId)
-                }
-                manager.remove(downloadId)
-              }
-              DownloadManager.STATUS_FAILED -> {
-              finishDownload = true
-              if (timerCoroutine.isActive) timerCoroutine.cancel()
-              val reason = cursor.getIntOrNull(cursor.getColumnIndex(DownloadManager.COLUMN_REASON))
-              val convertedReason = convertReasonString(reason)
-              withContext(Dispatchers.Main) {
-                channel.invokeMethod(
-                  "notifyProgress",
-                  mapOf(
-                    "downloadId" to downloadId,
-                    "progress" to 0,
-                    "status" to 4,
-                    "reason" to convertedReason
-                  )
-                )
-              }
-            }
+        if (cursor != null) {
+          val count = cursor.count
 
-            DownloadManager.STATUS_PAUSED -> {
-              finishDownload = true
-              if (timerCoroutine.isActive) timerCoroutine.cancel()
-              val reason = cursor.getIntOrNull(cursor.getColumnIndex(DownloadManager.COLUMN_REASON))
-              val convertedReason = convertReasonString(reason)
-              val total =
-                cursor.getLong(with(cursor) { getColumnIndex(DownloadManager.COLUMN_TOTAL_SIZE_BYTES) })
-              if (total >= 0) {
-                val downloaded =
-                  cursor.getLong(
-                    with(cursor) { getColumnIndex(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR) }
-                  )
-                progress = (downloaded * 100L / total).toInt()
-                withContext(Dispatchers.Main) {
-                  channel.invokeMethod(
-                    "notifyProgress",
-                    mapOf(
-                      "downloadId" to downloadId,
-                      "progress" to progress,
-                      "status" to 3,
-                      "reason" to convertedReason
-                    )
-                  )
-                }
-              } else {
-                withContext(Dispatchers.Main) {
-                  channel.invokeMethod(
-                    "notifyProgress",
-                    mapOf(
-                      "downloadId" to downloadId,
-                      "progress" to progress,
-                      "status" to 3,
-                      "reason" to convertedReason
-                    )
-                  )
-                }
-              }
-            }
+          if (count > 0) {
+            val columnStatusIndex = cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_STATUS)
+            val columnReasonIndex = cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_REASON)
+            val columnTotalSizeBytesIndex = cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_TOTAL_SIZE_BYTES)
+            val columnBytesDownloadedSoFarIndex = cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR)
+            val columnLocalUriIndex = cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_LOCAL_URI)
 
-            DownloadManager.STATUS_PENDING -> {
-              withContext(Dispatchers.Main) {
-                channel.invokeMethod(
-                  "notifyProgress",
-                  mapOf("downloadId" to downloadId, "progress" to 0, "status" to 2)
-                )
-              }
-              SystemClock.sleep(250)
-            }
+            while (cursor.moveToNext()) {
+              val status = cursor.getInt(columnStatusIndex)
 
-            DownloadManager.STATUS_RUNNING -> {
-              val total =
-                cursor.getLong(with(cursor) { getColumnIndex(DownloadManager.COLUMN_TOTAL_SIZE_BYTES) })
-              if (total >= 0) {
-                if (timerCoroutine.isActive) timerCoroutine.cancel()
-                val downloaded =
-                  cursor.getLong(
-                    with(cursor) { getColumnIndex(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR) }
-                  )
-                if (total != 0L) {
-                  progress = (downloaded * 100L / total).toInt()
-                }
-                if (progress != lastProgress) {
-                  lastProgress = progress
+              when (status) {
+                DownloadManager.STATUS_SUCCESSFUL -> {
+                  val filePath = cursor.getString(columnLocalUriIndex)
+                  progress = 100
+                  finishDownload = true
+                  if (timerCoroutine.isActive) timerCoroutine.cancel()
                   withContext(Dispatchers.Main) {
                     channel.invokeMethod(
                       "notifyProgress",
-                      mapOf("downloadId" to downloadId, "progress" to progress, "status" to 1)
+                      mapOf("downloadId" to downloadId, "progress" to progress, "status" to 0, "filePath" to filePath)
                     )
+                    disableNotificationClick(activity, downloadId)
+                  }
+                  manager.remove(downloadId)
+                }
+                DownloadManager.STATUS_FAILED -> {
+                  finishDownload = true
+                  if (timerCoroutine.isActive) timerCoroutine.cancel()
+                  val reason = cursor.getInt(columnReasonIndex)
+                  val convertedReason = convertReasonString(reason)
+                  withContext(Dispatchers.Main) {
+                    channel.invokeMethod(
+                      "notifyProgress",
+                      mapOf(
+                        "downloadId" to downloadId,
+                        "progress" to 0,
+                        "status" to 4,
+                        "reason" to convertedReason
+                      )
+                    )
+                  }
+                }
+                DownloadManager.STATUS_PAUSED -> {
+                  finishDownload = true
+                  if (timerCoroutine.isActive) timerCoroutine.cancel()
+                  val reason = cursor.getInt(columnReasonIndex)
+                  val convertedReason = convertReasonString(reason)
+                  val total = cursor.getLong(columnTotalSizeBytesIndex)
+                  if (total >= 0) {
+                    val downloaded = cursor.getLong(columnBytesDownloadedSoFarIndex)
+                    progress = (downloaded * 100L / total).toInt()
+                    withContext(Dispatchers.Main) {
+                      channel.invokeMethod(
+                        "notifyProgress",
+                        mapOf(
+                          "downloadId" to downloadId,
+                          "progress" to progress,
+                          "status" to 3,
+                          "reason" to convertedReason
+                        )
+                      )
+                    }
+                  } else {
+                    withContext(Dispatchers.Main) {
+                      channel.invokeMethod(
+                        "notifyProgress",
+                        mapOf(
+                          "downloadId" to downloadId,
+                          "progress" to progress,
+                          "status" to 3,
+                          "reason" to convertedReason
+                        )
+                      )
+                    }
+                  }
+                }
+                DownloadManager.STATUS_PENDING -> {
+                  withContext(Dispatchers.Main) {
+                    channel.invokeMethod(
+                      "notifyProgress",
+                      mapOf("downloadId" to downloadId, "progress" to 0, "status" to 2)
+                    )
+                  }
+                  SystemClock.sleep(250)
+                }
+                DownloadManager.STATUS_RUNNING -> {
+                  val total = cursor.getLong(columnTotalSizeBytesIndex)
+                  if (total >= 0) {
+                    if (timerCoroutine.isActive) timerCoroutine.cancel()
+                    val downloaded = cursor.getLong(columnBytesDownloadedSoFarIndex)
+                    if (total != 0L) {
+                      progress = (downloaded * 100L / total).toInt()
+                    }
+                    if (progress != lastProgress) {
+                      lastProgress = progress
+                      withContext(Dispatchers.Main) {
+                        channel.invokeMethod(
+                          "notifyProgress",
+                          mapOf("downloadId" to downloadId, "progress" to progress, "status" to 1)
+                        )
+                      }
+                    }
                   }
                 }
               }
             }
-
-            }
-          } while (cursor.moveToNext())
+          }
         }
       } catch (e: Exception) {
-        // Handle the CursorWindowAllocationException
-        Log.e("Download Progress", "CursorWindowAllocationException occurred: ${e.message}")
+        // Handle the exception
+        Log.e("Download Progress", "Exception occurred: ${e.message}")
       } finally {
         cursor?.close()
       }
