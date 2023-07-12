@@ -4,10 +4,11 @@
 - Click Notification disable
 - Bug Fixes
 - Multiple Notification call disable
-## 1.3.2
+## 1.3.3
 
 - Reduce Cursor Query
 - Minor Improvements
+- Update README.md
 
 
 
