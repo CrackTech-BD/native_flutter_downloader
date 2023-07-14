@@ -1,7 +1,7 @@
 name: native_flutter_downloader
 description: A plugin to download files using the native capabilities.
   URLSession on iOS and DownloadManager on Android
-version: 1.3.3
+version: 1.3.4
 #homepage:
 repository: https://github.com/CrackTech-BD/native_flutter_downloader
 

@@ -4,6 +4,18 @@
 - Click Notification disable
 - Bug Fixes
 - Multiple Notification call disable
+## 1.2.7
+
+- Directory Fixed from Flutter
+- Click Notification disable
+- Bug Fixes
+- Multiple Notification call disable
+## 1.3.4
+
+- Reduce Cursor Query
+- Error Handleing and Bug Fixes
+- Update README.md
+
 ## 1.3.3
 
 - Reduce Cursor Query
