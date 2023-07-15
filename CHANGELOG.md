@@ -10,11 +10,19 @@
 - Click Notification disable
 - Bug Fixes
 - Multiple Notification call disable
-## 1.3.4
+
+## 1.3.6
 
 - Reduce Cursor Query
 - Error Handleing and Bug Fixes
 - Update README.md
+- remove auto remove
+
+~~## 1.3.4
+
+- Reduce Cursor Query
+- Error Handleing and Bug Fixes
+- Update README.md~~
 
 ## 1.3.3
 
