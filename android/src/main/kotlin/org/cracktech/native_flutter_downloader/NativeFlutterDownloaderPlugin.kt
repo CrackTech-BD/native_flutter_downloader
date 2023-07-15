@@ -225,7 +225,6 @@ class NativeFlutterDownloaderPlugin : FlutterPlugin, MethodCallHandler, Activity
 
             while (cursor.moveToNext()) {
               val status = cursor.getInt(columnStatusIndex)
-
               when (status) {
                 DownloadManager.STATUS_SUCCESSFUL -> {
                   val filePath = cursor.getString(columnLocalUriIndex)
@@ -239,7 +238,6 @@ class NativeFlutterDownloaderPlugin : FlutterPlugin, MethodCallHandler, Activity
                     )
                     disableNotificationClick(activity, downloadId)
                   }
-                  manager.remove(downloadId)
                 }
                 DownloadManager.STATUS_FAILED -> {
                   finishDownload = true
